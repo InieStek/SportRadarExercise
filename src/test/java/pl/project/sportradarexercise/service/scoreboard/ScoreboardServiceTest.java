@@ -186,8 +186,6 @@ public class ScoreboardServiceTest {
 
     String actualSummary = scoreboardService.getSummary(1);
 
-    System.out.println(actualSummary);
-
     assertEquals(expectedSummary, actualSummary.trim());
   }
 
