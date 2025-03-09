@@ -164,7 +164,7 @@ public class ScoreboardServiceTest {
 
     match1.getResult().setHomeGoals(1);
     match1.getResult().setAwayGoals(1);
-    match2.getResult().setHomeGoals(3);
+    match2.getResult().setHomeGoals(4);
     match2.getResult().setAwayGoals(1);
     match3.getResult().setHomeGoals(4);
     match3.getResult().setAwayGoals(0);
@@ -173,7 +173,7 @@ public class ScoreboardServiceTest {
     when(scoreboardRepository.addScoreboard(scoreboard)).thenReturn(scoreboard);
     scoreboardService.addScoreboard(scoreboard);
 
-    String expectedSummary = "Spain 3 vs Finland 1\nMexico 4 vs Canada 0\nPoland 1 vs Germany 1";
+    String expectedSummary = "Spain 4 vs Finland 1\nMexico 4 vs Canada 0\nPoland 1 vs Germany 1";
 
     when(scoreboardRepository.findScoreboard(1)).thenReturn(Optional.of(scoreboard));
     when(matchService.sortByTotalGoalsThenLatestKickoff(matches)).thenAnswer(
