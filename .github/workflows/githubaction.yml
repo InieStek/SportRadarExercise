@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    env:
+      LC_ALL: "en_US.UTF-8"
+      LANG: "en_US.UTF-8"
     steps:
       - uses: actions/checkout@v4
       - name: Setup JDK 21
@@ -24,6 +27,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    env:
+      LC_ALL: "en_US.UTF-8"
+      LANG: "en_US.UTF-8"
     steps:
       - uses: actions/checkout@v4
       - name: Setup JDK 21
