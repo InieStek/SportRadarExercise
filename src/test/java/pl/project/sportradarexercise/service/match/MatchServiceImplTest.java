@@ -96,7 +96,7 @@ public class MatchServiceImplTest {
   }
 
   @Test
-  void testFinishEndedMatch() throws MatchDoesNotExistException, FinishedMatchException {
+  void testFinishEndedMatch(){
     Match match = new Match(1, polandTeam, germanyTeam);
     match.setStatus(MatchStatus.FINISHED);
 
@@ -185,4 +185,20 @@ public class MatchServiceImplTest {
 
     assertThrows(ExcessiveScoreChangeException.class, () -> matchService.updateMatch(1, newMatch));
   }
+
+  @Test
+  void testGoalsOfTeam() throws MatchDoesNotExistException {
+    Team polandTeam = new Team(1, "Poland");
+    Team germanyTeam = new Team(2, "Germany");
+    Match match = new Match(1, polandTeam, germanyTeam);
+
+    match.getResult().setHomeGoals(3);
+    match.getResult().setAwayGoals(2);
+
+    when(matchRepository.findMatchByTeam("Poland")).thenReturn(Optional.of(match));
+    int polandGoals = matchService.getTotalGoalsOfTeam("pOlAnD");
+
+    assertEquals(3, polandGoals);
+  }
+
 }

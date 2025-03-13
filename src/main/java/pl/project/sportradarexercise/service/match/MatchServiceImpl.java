@@ -9,6 +9,7 @@ import pl.project.sportradarexercise.model.error.match.MatchDoesNotExistExceptio
 import pl.project.sportradarexercise.model.error.match.UpdateMatchResultException;
 import pl.project.sportradarexercise.model.match.Match;
 import pl.project.sportradarexercise.repository.match.MatchRepository;
+import pl.project.sportradarexercise.util.TeamNameFormatter;
 import pl.project.sportradarexercise.validator.match.MatchNotFinishedValidator;
 import pl.project.sportradarexercise.validator.match.MatchResultHasChangedValidator;
 import pl.project.sportradarexercise.validator.match.NonNegativeResultValidator;
@@ -69,6 +70,11 @@ public class MatchServiceImpl implements MatchService {
   }
 
   @Override
+  public Optional<Match> findMatchByTeamName(String teamName) {
+    return matchRepository.findMatchByTeam(teamName);
+  }
+
+  @Override
   public List<Match> sortByTotalGoalsThenLatestKickoff(List<Match> matches) {
     return matches.stream()
         .filter(match -> !match.isFinished())
@@ -77,4 +83,18 @@ public class MatchServiceImpl implements MatchService {
             .reversed())
         .toList();
   }
+
+  @Override
+  public int getTotalGoalsOfTeam(String team) throws MatchDoesNotExistException {
+    String teamName = TeamNameFormatter.format(team);
+
+    Match match = findMatchByTeamName(teamName)
+        .orElseThrow(() -> new MatchDoesNotExistException(-1));
+
+    return match.getHomeTeam().getName().equalsIgnoreCase(teamName)
+        ? match.getResult().getHomeGoals()
+        : match.getResult().getAwayGoals();
+  }
+
 }
+

@@ -43,4 +43,11 @@ public class MatchRepositoryImpl implements MatchRepository {
     matches.remove(match);
     return match;
   }
+
+  @Override
+  public Optional<Match> findMatchByTeam(String teamName) {
+    return matches.stream()
+        .filter(match -> match.getHomeTeam().getName().equals(teamName) || match.getAwayTeam().getName().equals(teamName))
+        .findFirst();
+  }
 }

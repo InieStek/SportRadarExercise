@@ -18,4 +18,9 @@ public interface MatchService {
   Optional<Match> findMatch(int id);
 
   List<Match> sortByTotalGoalsThenLatestKickoff(List<Match> matches);
+
+  int getTotalGoalsOfTeam(String homeTeam) throws MatchDoesNotExistException;
+
+  Optional<Match> findMatchByTeamName(String team);
+
 }
