@@ -13,4 +13,6 @@ public interface MatchRepository {
 
   Match finishMatch(int id);
 
+  Optional<Match> findMatchByTeam(String teamName);
+
 }

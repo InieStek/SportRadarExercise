@@ -3,6 +3,8 @@ package pl.project.sportradarexercise.repository.match;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import pl.project.sportradarexercise.model.error.match.MatchDoesNotExistException;
 import pl.project.sportradarexercise.model.match.Match;
@@ -67,4 +69,18 @@ public class MatchRepositoryImplTest {
 
     assertEquals(MatchStatus.FINISHED, match.getStatus());
   }
+
+  @Test
+  void testFindMatchByTeamName() {
+    Team homeTeam = new Team(1, "Poland");
+    Team awayTeam = new Team(2, "Germany");
+    Match match = new Match(1, homeTeam, awayTeam);
+
+    matchRepository.addMatch(match);
+    Optional<Match> foundMatch = matchRepository.findMatch(1);
+
+    assertEquals(homeTeam.getName(), foundMatch.get().getHomeTeam().getName());
+    assertEquals(awayTeam.getName(), foundMatch.get().getAwayTeam().getName());
+  }
+
 }
