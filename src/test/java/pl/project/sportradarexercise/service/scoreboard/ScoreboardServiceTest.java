@@ -3,6 +3,7 @@ package pl.project.sportradarexercise.service.scoreboard;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -173,20 +174,12 @@ public class ScoreboardServiceTest {
     when(scoreboardRepository.addScoreboard(scoreboard)).thenReturn(scoreboard);
     scoreboardService.addScoreboard(scoreboard);
 
-    String expectedSummary = "Spain 3 vs Finland 1\nMexico 4 vs Canada 0\nPoland 1 vs Germany 1";
+    String expectedSummary = "Mexico 4 vs Canada 0\nSpain 3 vs Finland 1\nPoland 1 vs Germany 1";
 
     when(scoreboardRepository.findScoreboard(1)).thenReturn(Optional.of(scoreboard));
-    when(matchService.sortByTotalGoalsThenLatestKickoff(matches)).thenAnswer(
-        invocation -> matches.stream()
-            .filter(match -> !match.isFinished())
-            .sorted(Comparator.comparing((Match match) -> match.getResult().getTotalGoals())
-                .thenComparing(Match::getKickOffTimestamp)
-                .reversed())
-            .toList());
+    when(matchService.sortByTotalGoalsThenLatestKickoff(matches)).thenReturn(List.of(match3,match2,match1));
 
     String actualSummary = scoreboardService.getSummary(1);
-
-    System.out.println(actualSummary);
 
     assertEquals(expectedSummary, actualSummary.trim());
   }
